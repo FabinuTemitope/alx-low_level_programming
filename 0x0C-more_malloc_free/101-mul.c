@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 /**
  * _isNum - check if is a number
  * @num: string to check
@@ -68,7 +69,7 @@ int main(int argc, char *argv[])
 	res = calloc(length, sizeof(int *));
 	if (res == NULL)
 		puts("Error"), exit(98);
-	{
+	{
 		c = 0;
 		for (j = l1; j > -1; j--)
 		{
