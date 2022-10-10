@@ -5,6 +5,7 @@
  * new_dog - new element of type struct dog
  * @name: name of new dog
  * @age: age of new dog
+ * @owner: owner of new dog
  *
  * Return: new struct dog
  * if fails, returns NULL.
