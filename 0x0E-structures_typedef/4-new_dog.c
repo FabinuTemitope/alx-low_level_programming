@@ -2,9 +2,13 @@
 #include "dog.h"
 
 /**
- * _copy  -   Make a copy of passed in argument
- * @src:      Data to make copy of
- * Return:    Pointer
+ * new_dog - new element of type struct dog
+ * @name: name of new dog
+ * @age: age of new dog
+ * @owner: owner of new dog
+ *
+ * Return: new struct dog
+ * if fails, returns NULL.
  */
 
 char *_copy(char *src)
@@ -42,42 +46,46 @@ return (NULL);
  * @age:         Age of the dog
  * @owner:       Owner of the dog
  * Return:       Pointer to new dog variable
+ * if fails, returns NULL.
  */
-
 dog_t *new_dog(char *name, float age, char *owner)
 {
-	dog_t *snoopie;
-	char *new_name, *new_owner;
+	dog_t *p_dog;
+	int i, lname, lowner;
 
-	if (name == NULL || owner == NULL)
+	p_dog = malloc(sizeof(*p_dog));
+	if (p_dog == NULL || !(name) || !(owner))
 	{
+		free(p_dog);
 		return (NULL);
 	}
 
-	snoopie = malloc(sizeof(dog_t));
-	if (snoopie == NULL)
+	for (lname = 0; name[lname]; lname++)
+		;
+
+	for (lowner = 0; owner[lowner]; lowner++)
+		;
+
+	p_dog->name = malloc(lname + 1);
+	p_dog->owner = malloc(lowner + 1);
+
+	if (!(p_dog->name) || !(p_dog->owner))
 	{
+		free(p_dog->owner);
+		free(p_dog->name);
+		free(p_dog);
 		return (NULL);
 	}
 
-	new_name = _copy(name);
-	if (new_name == NULL)
-	{
-		free(snoopie);
-		return (NULL);
-	}
-	(*snoopie).name = new_name;
+	for (i = 0; i < lname; i++)
+		p_dog->name[i] = name[i];
+	p_dog->name[i] = '\0';
 
-	(*snoopie).age = age;
+	p_dog->age = age;
 
-	new_owner = _copy(owner);
-	if (new_owner == NULL)
-	{
-		free((*snoopie).name);
-		free(snoopie);
-		return (NULL);
-	}
-	(*snoopie).owner = new_owner;
+	for (i = 0; i < lowner; i++)
+		p_dog->owner[i] = owner[i];
+	p_dog->owner[i] = '\0';
 
-	return (snoopie);
+	return (p_dog);
 }
