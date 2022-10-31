@@ -195,6 +195,7 @@ void print_type(unsigned int e_type, unsigned char *e_ident)
 {
 	if (e_ident[EI_DATA] == ELFDATA2MSB)
 		e_type >>= 8;
+
 	printf("  Type:                              ");
 
 	switch (e_type)
@@ -225,20 +226,22 @@ void print_type(unsigned int e_type, unsigned char *e_ident)
  * @e_ident: A pointer to an array containing the ELF class.
  */
 void print_entry(unsigned long int e_entry, unsigned char *e_ident)
+{
 	printf("  Entry point address:               ");
 
 	if (e_ident[EI_DATA] == ELFDATA2MSB)
-{
-	e_entry = ((e_entry << 8) & 0xFF00FF00) |
-		((e_entry >> 8) & 0xFF00FF);
-	e_entry = (e_entry << 16) | (e_entry >> 16);
-}
-if (e_ident[EI_CLASS] == ELFCLASS32)
-	printf("%#x\n", (unsigned int)e_entry);
+	{
+		e_entry = ((e_entry << 8) & 0xFF00FF00) |
+			  ((e_entry >> 8) & 0xFF00FF);
+		e_entry = (e_entry << 16) | (e_entry >> 16);
+	}
+
+	if (e_ident[EI_CLASS] == ELFCLASS32)
+		printf("%#x\n", (unsigned int)e_entry);
 
 	else
-	printf("%#lx\n", e_entry);
-	}
+		printf("%#lx\n", e_entry);
+}
 
 /**
  * close_elf - Closes an ELF file.
@@ -251,14 +254,14 @@ void close_elf(int elf)
 	if (close(elf) == -1)
 	{
 		dprintf(STDERR_FILENO,
-				"Error: Can't close fd %d\n", elf);
+			"Error: Can't close fd %d\n", elf);
 		exit(98);
 	}
 }
 
 /**
  * main - Displays the information contained in the
- * ELF header at the start of an ELF file.
+ * 	  ELF header at the start of an ELF file.
  * @argc: The number of arguments supplied to the program.
  * @argv: An array of pointers to the arguments.
  *
@@ -309,4 +312,3 @@ int main(int __attribute__((__unused__)) argc, char *argv[])
 	close_elf(o);
 	return (0);
 }
-
